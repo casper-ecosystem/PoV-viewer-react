@@ -8,6 +8,12 @@ Proof-of-Victory (PoV) NFTs are on-chain certificates that allow for physical re
 
 See the [Proof-of-Victory Design Spec](https://github.com/casper-ecosystem/PoV-design-spec) for more information.
 
+## About
+
+This app uses the Casper Signer to retrieve the user's public key and checks the `"owned_tokens"` dictionary in the [CEP-78](https://github.com/casper-ecosystem/cep-78-enhanced-nft) contract to retrieve the tokens. It then makes one query to the `"metadata_custom_validated"` endpoint per token, passing in the token ID as the [dictionary item key](https://github.com/casper-ecosystem/casper-js-sdk/blob/dev/src/lib/Contracts.ts#L181).
+
+The Casper Network queries are performed on the backend (in [server.js](./server.js)) and then sent back to the front-end for parsing. These requests originate from the front end in [lib.js](./src/casper/lib.js).
+
 ## Visit the Site
 
 [Proof-of-Victory NFT Viewer]()
