@@ -47,6 +47,6 @@ Visit [localhost:3000](http://localhost:3000)
 
 ## Future Work
 
-The PoV Viewer app could benefit from an on-chain smart contract containing an ever growing list of authorized Proof-of-Victory NFTs.
+The PoV Viewer app could benefit from an on-chain smart contract containing an ever growing list of authorized Proof-of-Victory NFT contract addresses.
 
 The authorization authority will be determined either by voting or perhaps even more democratically.
