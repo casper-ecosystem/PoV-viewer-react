@@ -3,7 +3,7 @@ import './css/PoVList.css';
 function PoVList(props) {
 
   const images = props.list.map((metadata) => 
-    <img src={metadata.image} key={metadata.tokenId} onClick={() => selectPoV()}/>
+    <img src={metadata.image} key={metadata.tokenId} onClick={() => selectPoV(props, metadata.tokenId)}/>
   )
 
   return (
@@ -11,8 +11,8 @@ function PoVList(props) {
   )
 }
 
-function selectPoV() {
-  console.log("test")
+function selectPoV(props, tokenId) {
+  props.setSelected(tokenId);
 }
 
 export default PoVList;
