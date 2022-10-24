@@ -37,7 +37,7 @@ function Viewer(props) {
     }
   }
 
-  if (metadatas == null) { // Need this again because poVs abd metadatas could both be null
+  if (metadatas == null) { // Need this again because poVs and metadatas could both be null
     return (
       <div id="viewer">
         <p>Public Key: {truncate(props.pubKey)}</p>
