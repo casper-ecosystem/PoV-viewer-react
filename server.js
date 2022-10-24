@@ -73,14 +73,18 @@ app.get("/metadata", (req, res) => {
 
 });
 
-
-const httpServer = http.createServer(app)
 const httpsServer = https.createServer(credentials, app)
 
-httpServer.listen(3001, () => {
-	console.log('HTTP Server running on port 80')
+const httpApp = express()
+
+httpApp.get('*', function(req, res) {  
+    res.redirect('https://' + req.headers.host + req.url);
+})
+
+httpApp.listen(3001, () => {
+	console.log('HTTPS Server running on port 3001 -> 80')
 });
 
 httpsServer.listen(3000, () => {
-	console.log('HTTPS Server running on port 443')
+	console.log('HTTPS Server running on port 300 -> 443')
 });
