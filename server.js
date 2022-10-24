@@ -4,12 +4,13 @@ var cors = require('cors')
 const { CasperClient, Contracts, CLPublicKey } = require('casper-js-sdk')
 const path = require("path")
 
-const client = new CasperClient("http://65.108.76.33:7777/rpc") ///SHOULD PROBABLY BE DYNAMIC
+const client = new CasperClient("http://35.74.142.210:7777/rpc") ///SHOULD PROBABLY BE DYNAMIC
 const contract = new Contracts.Contract(client)
-contract.setContractHash("hash-fd25f97bfbd5581adef9e75ba27aea4ba5bdceae7d99fab2d0d4bda29788f2ea") ///NEED A LIST OF VALID CONTRACT ADDRESSES TO ENUMERATE
+contract.setContractHash("hash-a33d208597ba449ddb43520dd967b9a1bae5fc3f5713eebf154a745fedbd7f28") ///NEED A LIST OF VALID CONTRACT ADDRESSES TO ENUMERATE
 
 app.use(cors())
 app.use(express.json())
+app.use(express.static(path.join(__dirname, 'build')))
 
 async function getPoVs(pubKey) {
     return contract.queryContractDictionary("owned_tokens", CLPublicKey.fromHex(pubKey).toAccountHashStr().substring(13, CLPublicKey.fromHex(pubKey).toAccountHashStr().length))
@@ -18,6 +19,11 @@ async function getPoVs(pubKey) {
 async function getMetadata(tokenId) {
     return contract.queryContractDictionary("metadata_custom_validated", `${tokenId}`)
 }
+
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+
+});
 
 app.get("/owned_tokens", (req, res) => {
     const pubKey = req.query.pubKey;
