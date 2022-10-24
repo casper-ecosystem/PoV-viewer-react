@@ -1,1 +1,8 @@
+#login .buttons {
+    display: flex;
+    flex-direction: column;
+}
 
+#login .buttons button:first-child {
+    margin-bottom: 1em;
+}

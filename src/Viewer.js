@@ -2,12 +2,19 @@ import './css/Viewer.css';
 import { getPoVs, getMetadatas } from './casper/lib.js';
 import PoVList from './PoVList'
 import NFT from './NFT'
+import Nav from './Nav'
 import React from 'react';
 
 function Viewer(props) {
   const [poVs, setPoVs] = React.useState(null);
   const [metadatas, setMetadatas] = React.useState(null);
   const [selected, setSelected] = React.useState(null);
+
+  const noPoVsJSX = (
+    <div id="viewer">
+      <Nav setPubKey={(e) => props.setPubKey(e)} pubKey={props.pubKey} toggleTryUsingSigner={(e) => props.toggleTryUsingSigner(e)} metadatas={metadatas} poVs={poVs}/>
+    </div>
+  );
 
   if (selected != null) {
     return (
@@ -29,27 +36,19 @@ function Viewer(props) {
       }).catch(error => {
         alert(`Error retrieving metadata for PoV NFTs: ${error.message}`)
       })
-      return (
-        <div id="viewer">
-          <p>Public Key: {truncate(props.pubKey)}</p>
-        </div>
-      );
+      return noPoVsJSX;
     }
   }
 
   if (metadatas == null) { // Need this again because poVs and metadatas could both be null
-    return (
-      <div id="viewer">
-        <p>Public Key: {truncate(props.pubKey)}</p>
-      </div>
-    )
+    return noPoVsJSX;
   } else {
     return (
       <div id="viewer">
-        <p>Public Key: {truncate(props.pubKey)}</p>
+        <Nav setPubKey={(e) => props.setPubKey(e)} pubKey={props.pubKey} toggleTryUsingSigner={(e) => props.toggleTryUsingSigner(e)} metadatas={metadatas} poVs={poVs}/>
         <PoVList list={metadatas} setSelected={setSelected}/>
       </div>
-    )
+    );
   }
   
 }

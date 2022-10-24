@@ -1,12 +1,10 @@
 import './css/NFT.css';
-import back from './images/back.svg'
+import Nav from './Nav'
 
 function NFT(props) {
   return (
     <div id="nft">
-      <div id="top-row">
-        <img src={require('./images/back.svg').default} onClick={() => props.setSelected(null)}/>
-      </div>
+      <Nav setSelected={(e) => props.setSelected(e)}/>
       <div className="view">
         <img src={props.metadata.image}/>
         <div className="metadata">

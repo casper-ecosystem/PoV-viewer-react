@@ -2,14 +2,16 @@ import './css/Subject.css';
 import { getStatus, connectSigner, getActivePublicKey } from './casper/lib.js';
 import Viewer from './Viewer';
 import Login from './Login';
+import Search from './Search';
 import React from 'react';
 
 function Subject() {
 
   const [pubKey, setPubKey] = React.useState(null);
-  const [searching, enableSearch] = React.useState(null);
+  const [searching, toggleSearch] = React.useState(null);
+  const [tryUsingSigner, toggleTryUsingSigner] = React.useState(false);
 
-  if (pubKey == null) { // pubKey may have already been set in Login.js
+  if (pubKey == null && !searching && tryUsingSigner) { // pubKey may have already been set in Login.js
     getStatus().then(s => {
       if (s == true) {
         getActivePublicKey().then(pubKey => {
@@ -17,29 +19,32 @@ function Subject() {
           }
         );
       }
+    }).catch((error) => {
+      console.error(error);
     });
   }
   
-  const props = {pubKey: pubKey}
+  const props = {pubKey: pubKey, setPubKey: setPubKey, toggleTryUsingSigner: toggleTryUsingSigner}
 
   if (pubKey == null) {
-    return (
-      <div id="subject">
+    if (searching) {
+      return (
+        <Search toggleSearch={toggleSearch} setPubKey={setPubKey}/>
+      );
+    } else {
+      return (
         <div id="login">
-          <h1>Proof-of-Victory NFT Viewer</h1>
-          <div>
-            <Login setPubKey={setPubKey} enableSearch={enableSearch}/>
+          <div className="header">
+            <h1>Proof-of-Victory NFT Viewer</h1>
+            <p>Casper Association</p>
           </div>
+          <Login setPubKey={setPubKey} toggleSearch={toggleSearch} tryUsingSigner={tryUsingSigner} toggleTryUsingSigner={toggleTryUsingSigner}/>
         </div>
-      </div>
-    );
+      );
+    }
   } else {
     return (
-      <div id="subject">
-        <div>
-          <Viewer {...props}/>
-        </div>
-      </div>
+      <Viewer {...props}/>
     );
   }
 
