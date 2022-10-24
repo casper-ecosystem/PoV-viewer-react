@@ -44,7 +44,7 @@ function getActivePublicKey() {
 
 // Will need a list of approved PoV contractAddresses (only one exists), but that's backend problem, see server.js
 function getPoVs(pubKey) {
-  return axios.get(`http://${window.location.hostname}:3000/owned_tokens?pubKey=${pubKey}`)
+  return axios.get(`https://${window.location.hostname}/owned_tokens?pubKey=${pubKey}`)
 }
 
 
@@ -53,7 +53,7 @@ async function getMetadatas(poVs) {
     var arr = [];
     for (var i = 0; i < poVs.length; i++) {
       console.log(poVs[i])
-      const metadata = (await axios.get(`http://${window.location.hostname}:3000/metadata?tokenId=${poVs[i]}`)).data;
+      const metadata = (await axios.get(`https://${window.location.hostname}/metadata?tokenId=${poVs[i]}`)).data;
       const jmetadata = JSON.parse(metadata);
       jmetadata["tokenId"] = poVs[i];
       arr.push(jmetadata);
